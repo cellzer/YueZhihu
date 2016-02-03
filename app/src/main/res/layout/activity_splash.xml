@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <ImageView
+        android:id="@+id/iv_start"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/splash_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/splash_top_margin"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white"
+        android:textSize="50sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/splash_slogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/splash_app_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/splash_middle_top_margin"
+        android:text="悦读知乎"
+        android:textColor="#E6FFFFFF"
+        android:textSize="14sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/splash_bottom_margin"
+        android:background="#1AFFFFFF"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/splash_bottom_padding">
+
+        <TextView
+            android:id="@+id/splash_version_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="版本号：V 1.0.0 beta"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/splash_copyright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/splash_middle_top_margin"
+            android:gravity="center"
+            android:lineSpacingExtra="2dp"
+            android:text="Copyright &#169; 2015 YueZhihu All Rights Reserved\nPowered by Cellzer"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"/>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
