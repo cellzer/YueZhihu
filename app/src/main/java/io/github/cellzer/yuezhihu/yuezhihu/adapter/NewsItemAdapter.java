@@ -1,6 +1,8 @@
 package io.github.cellzer.yuezhihu.yuezhihu.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.List;
 
 import io.github.cellzer.yuezhihu.yuezhihu.R;
+import io.github.cellzer.yuezhihu.yuezhihu.YueZhihuApplication;
 import io.github.cellzer.yuezhihu.yuezhihu.model.StoriesEntity;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.activity.MainActivity;
 import io.github.cellzer.yuezhihu.yuezhihu.util.PreUtils;
@@ -29,11 +32,15 @@ public class NewsItemAdapter extends BaseAdapter {
     private ImageLoader mImageloader;
     private DisplayImageOptions options;
     private boolean isLight;
+    private SharedPreferences sp;
 
     public NewsItemAdapter(Context context, List<StoriesEntity> items) {
         this.context = context;
         entities = items;
-        isLight = ((MainActivity) context).isLight();
+//        isLight = ((MainActivity) context).isLight();
+        sp = PreferenceManager.getDefaultSharedPreferences(YueZhihuApplication.getContext());
+        isLight = sp.getBoolean("isLight", true);
+
         mImageloader = ImageLoader.getInstance();
         options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)

@@ -27,7 +27,6 @@ import butterknife.InjectView;
 import io.github.cellzer.yuezhihu.yuezhihu.Constant;
 import io.github.cellzer.yuezhihu.yuezhihu.R;
 import io.github.cellzer.yuezhihu.yuezhihu.net.HttpUtils;
-import io.github.cellzer.yuezhihu.yuezhihu.ui.activity.MainActivity;
 import io.github.cellzer.yuezhihu.yuezhihu.util.PreUtils;
 
 import static android.support.design.widget.TabLayout.MODE_SCROLLABLE;
@@ -84,13 +83,12 @@ public class TopicNewsFragment extends BaseFragment implements ViewPager.OnPageC
 
         }
 
-        configView();
-        mTopicNewsPagerAdapter.notifyDataSetChanged();
+
     }
 
 
     private void configView() {
-        mTopicNewsPagerAdapter = new TopicNewsPagerAdapter(((MainActivity)mActivity).getSupportFragmentManager());
+        mTopicNewsPagerAdapter = new TopicNewsPagerAdapter(getChildFragmentManager());
         mViewPager.setAdapter(mTopicNewsPagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.addOnPageChangeListener(this);
@@ -109,7 +107,8 @@ public class TopicNewsFragment extends BaseFragment implements ViewPager.OnPageC
                 JSONObject itemObject = itemsArray.getJSONObject(i);
                 mTitles.add(itemObject.getString("name"));
                 mIds.add(itemObject.getString("id"));
-
+                configView();
+                mTopicNewsPagerAdapter.notifyDataSetChanged();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -130,7 +129,7 @@ public class TopicNewsFragment extends BaseFragment implements ViewPager.OnPageC
 
         @Override
         public Fragment getItem(int position) {
-            return new NewsFragment(mIds.get(position),mTitles.get(position));
+            return new NewsFragment(mIds.get(position),mTitles.get(position),mActivity);
         }
 
         @Override

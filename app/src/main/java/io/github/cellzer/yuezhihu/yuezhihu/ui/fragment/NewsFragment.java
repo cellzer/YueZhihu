@@ -1,10 +1,12 @@
 package io.github.cellzer.yuezhihu.yuezhihu.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,9 @@ import org.apache.http.Header;
 
 import io.github.cellzer.yuezhihu.yuezhihu.Constant;
 import io.github.cellzer.yuezhihu.yuezhihu.R;
+import io.github.cellzer.yuezhihu.yuezhihu.YueZhihuApplication;
 import io.github.cellzer.yuezhihu.yuezhihu.adapter.NewsItemAdapter;
+import io.github.cellzer.yuezhihu.yuezhihu.db.CacheDbHelper;
 import io.github.cellzer.yuezhihu.yuezhihu.model.News;
 import io.github.cellzer.yuezhihu.yuezhihu.model.StoriesEntity;
 import io.github.cellzer.yuezhihu.yuezhihu.net.HttpUtils;
@@ -43,16 +47,22 @@ public class NewsFragment extends BaseFragment {
     private News news;
     private NewsItemAdapter mAdapter;
     private String title;
+    private CacheDbHelper dbHelper ;
+    private Context context;
 
-
-    public NewsFragment(String id, String title) {
+    public NewsFragment(String id, String title ,Context context) {
         urlId = id;
         this.title = title;
+        this.context = context;
+        dbHelper = new CacheDbHelper(context, 1);
     }
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.news_layout, container, false);
+        //禁用刷新
+        ((MainActivity) mActivity).setSwipeRefreshEnable(false);
+
         mImageLoader = ImageLoader.getInstance();
         lv_news = (ListView) view.findViewById(R.id.lv_news);
         View header = LayoutInflater.from(mActivity).inflate(
@@ -72,7 +82,8 @@ public class NewsFragment extends BaseFragment {
                 Intent intent = new Intent(mActivity, NewsContentActivity.class);
                 intent.putExtra(Constant.START_LOCATION, startingLocation);
                 intent.putExtra("entity", entity);
-                intent.putExtra("isLight", ((MainActivity) mActivity).isLight());
+
+                intent.putExtra("isLight", PreferenceManager.getDefaultSharedPreferences(YueZhihuApplication.getContext()).getBoolean("isLight", true));
 
                 String readSequence = PreUtils.getStringFromDefault(mActivity, "read", "");
                 String[] splits = readSequence.split(",");
@@ -106,8 +117,8 @@ public class NewsFragment extends BaseFragment {
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
                 if (lv_news != null && lv_news.getChildCount() > 0) {
-                    boolean enable = (firstVisibleItem == 0) && (view.getChildAt(firstVisibleItem).getTop() == 0);
-                    ((MainActivity) mActivity).setSwipeRefreshEnable(enable);
+//                    boolean enable = (firstVisibleItem == 0) && (view.getChildAt(firstVisibleItem).getTop() == 0);
+//                    ((MainActivity) mActivity).setSwipeRefreshEnable(enable);
                 }
             }
         });
@@ -127,14 +138,14 @@ public class NewsFragment extends BaseFragment {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                    SQLiteDatabase db = ((MainActivity) mActivity).getCacheDbHelper().getWritableDatabase();
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
                     db.execSQL("replace into CacheList(date,json) values(" + (Constant.BASE_COLUMN + Integer.parseInt(urlId)) + ",' " + responseString + "')");
                     db.close();
                     parseJson(responseString);
                 }
             });
         } else {
-            SQLiteDatabase db = ((MainActivity) mActivity).getCacheDbHelper().getReadableDatabase();
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
             Cursor cursor = db.rawQuery("select * from CacheList where date = " + (Constant.BASE_COLUMN + Integer.parseInt(urlId)), null);
             if (cursor.moveToFirst()) {
                 String json = cursor.getString(cursor.getColumnIndex("json"));

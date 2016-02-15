@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.github.cellzer.yuezhihu.yuezhihu.R;
+import io.github.cellzer.yuezhihu.yuezhihu.YueZhihuApplication;
 import io.github.cellzer.yuezhihu.yuezhihu.db.CacheDbHelper;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.fragment.MainFragment;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.fragment.TopicNewsFragment;
@@ -41,7 +42,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         dbHelper = new CacheDbHelper(this, 1);
-        sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp = PreferenceManager.getDefaultSharedPreferences(YueZhihuApplication.getContext());
         isLight = sp.getBoolean("isLight", true);
         config();
         replaceView(new MainFragment(),"latest");
