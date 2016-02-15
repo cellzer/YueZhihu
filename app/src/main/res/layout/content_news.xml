@@ -65,13 +65,13 @@
                 app:tabTextColor：Tab未被选中字体的颜色；
                 app:tabIndicatorColor：Tab指示器下标的颜色；
         -->
+
         <android.support.design.widget.TabLayout
             android:id="@+id/id_tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabGravity="fill"
             app:tabIndicatorColor="@android:color/white" />
-
     </android.support.design.widget.AppBarLayout>
 
     <!--

@@ -37,6 +37,9 @@ import io.github.cellzer.yuezhihu.yuezhihu.ui.activity.NewsContentActivity;
 import io.github.cellzer.yuezhihu.yuezhihu.util.PreUtils;
 
 
+/**
+ * 新奇日报二级页面
+ */
 @SuppressLint("ValidFragment")
 public class NewsFragment extends BaseFragment {
     private ImageLoader mImageLoader;

@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -36,6 +37,11 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @InjectView(R.id.id_drawerlayout)
     DrawerLayout mDrawerlayout;
     private SharedPreferences sp;
+
+//    @InjectView(R.id.title)
+//    TextView title;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

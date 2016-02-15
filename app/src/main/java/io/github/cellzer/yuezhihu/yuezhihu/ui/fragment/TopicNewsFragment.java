@@ -33,6 +33,7 @@ import static android.support.design.widget.TabLayout.MODE_SCROLLABLE;
 
 /**
  * Created by walmand_ on 2016/1/31 0031.
+ * 新奇日报一级页面
  */
 public class TopicNewsFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
     @InjectView(R.id.id_tablayout)

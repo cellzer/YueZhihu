@@ -35,6 +35,7 @@ import io.github.cellzer.yuezhihu.yuezhihu.ui.widget.RevealBackgroundView;
 
 /**
  * Created by walmand_ on 2016/2/3 0003.
+ * 首页新闻详情页面
  */
 public class LatestContentActivity extends AppCompatActivity implements RevealBackgroundView.OnStateChangeListener {
     private WebView mWebView;

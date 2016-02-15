@@ -23,7 +23,19 @@
             android:background="?attr/colorPrimaryDark"
             android:fitsSystemWindows="true"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
+           <!--<TextView-->
+               <!--android:id="@+id/title"-->
+               <!--android:layout_width="wrap_content"-->
+               <!--android:layout_height="wrap_content"-->
+               <!--android:gravity="center"-->
+               <!--android:textSize="24sp"-->
+               <!--android:textColor="@android:color/white"-->
+               <!--android:text="hello"-->
+               <!--/>-->
+
+
+       </android.support.v7.widget.Toolbar>
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/sr"
