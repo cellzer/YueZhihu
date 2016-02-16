@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ import io.github.cellzer.yuezhihu.yuezhihu.util.PreUtils;
 /**
  * Created by walmand_ on 2016/1/31 0031.
  */
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private ListView lv_news;
     private MainNewsItemAdapter mAdapter;
     private Latest latest;
@@ -45,11 +46,13 @@ public class MainFragment extends BaseFragment {
     private String date;
     private boolean isLoading = false;
     private Handler handler = new Handler();
-
+    private SwipeRefreshLayout sr;
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_main, container, false);
         lv_news = (ListView) view.findViewById(R.id.lv_news);
+        sr = (SwipeRefreshLayout) view.findViewById(R.id.sr);
+        sr.setOnRefreshListener(MainFragment.this);
         View header = inflater.inflate(R.layout.kanner, lv_news, false);
         kanner = (Kanner) header.findViewById(R.id.kanner);
         kanner.setOnItemClickListener(new Kanner.OnItemClickListener() {
@@ -83,8 +86,8 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (lv_news != null && lv_news.getChildCount() > 0) {
-                    boolean enable = (firstVisibleItem == 0) && (view.getChildAt(firstVisibleItem).getTop() == 0);
-                    ((MainActivity) mActivity).setSwipeRefreshEnable(enable);
+                    /*boolean enable = (firstVisibleItem == 0) && (view.getChildAt(firstVisibleItem).getTop() == 0);
+                    setSwipeRefreshEnable(enable);*/
 
                     if (firstVisibleItem + visibleItemCount == totalItemCount && !isLoading) {
                         loadMore(Constant.BEFORE + date);
@@ -125,6 +128,10 @@ public class MainFragment extends BaseFragment {
             }
         });
         return view;
+    }
+
+    private void setSwipeRefreshEnable(boolean enable) {
+        sr.setRefreshing(enable);
     }
 
     private void loadFirst() {
@@ -255,5 +262,13 @@ public class MainFragment extends BaseFragment {
 
     public void updateTheme() {
         mAdapter.updateTheme();
+    }
+
+    @Override
+    public void onRefresh() {
+        if (!isLoading){
+            loadFirst();
+        }
+        sr.setRefreshing(false);
     }
 }

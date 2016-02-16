@@ -24,14 +24,12 @@ import io.github.cellzer.yuezhihu.yuezhihu.ui.fragment.MainFragment;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.fragment.TopicNewsFragment;
 
 
-public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends BaseActivity  {
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
     @InjectView(R.id.fl_content)
     FrameLayout flContent;
-    @InjectView(R.id.sr)
-    SwipeRefreshLayout sr;
     @InjectView(R.id.id_navigationview)
     NavigationView mNavigationview;
     @InjectView(R.id.id_drawerlayout)
@@ -68,7 +66,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         onNavgationViewMenuItemSelected(mNavigationview);
 
 
-        sr.setOnRefreshListener(this);
 
     }
     /**
@@ -135,28 +132,9 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public CacheDbHelper getCacheDbHelper() {
         return dbHelper;
     }
-    @Override
-    public void onRefresh() {
-//        String title = toolbar.getTitle().toString();
-//        if(title.contains("悦知乎")||title.contains("首页")){
-//            replaceView(new MainFragment(),"latest");
-//        }else if(title.contains("新奇日报")){
-//            replaceView(new TopicNewsFragment(),"news");
-//        }else if(title.contains("精选")){
-//
-//        }else if(title.contains("用户排名")){
-//
-//        }else if(title.contains("收藏")){
-//
-//        }
-        sr.setRefreshing(false);
-    }
 
     private void replaceView(Fragment f,String tag) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_content,f,tag).commit();
 
-    }
-    public void setSwipeRefreshEnable(boolean enable) {
-        sr.setEnabled(enable);
     }
 }

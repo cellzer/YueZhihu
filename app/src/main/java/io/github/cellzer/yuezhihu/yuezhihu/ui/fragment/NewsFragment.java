@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ import io.github.cellzer.yuezhihu.yuezhihu.util.PreUtils;
  * 新奇日报二级页面
  */
 @SuppressLint("ValidFragment")
-public class NewsFragment extends BaseFragment {
+public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private ImageLoader mImageLoader;
     private ListView lv_news;
     private ImageView iv_title;
@@ -51,6 +52,8 @@ public class NewsFragment extends BaseFragment {
     private String title;
     private CacheDbHelper dbHelper ;
     private Context context;
+    private SwipeRefreshLayout sr;
+    private boolean isLoading = false;
 
     public NewsFragment(String id, String title ,Context context) {
         urlId = id;
@@ -62,9 +65,8 @@ public class NewsFragment extends BaseFragment {
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.news_layout, container, false);
-        //禁用刷新
-        ((MainActivity) mActivity).setSwipeRefreshEnable(false);
-
+        sr = (SwipeRefreshLayout) view.findViewById(R.id.sr);
+        sr.setOnRefreshListener(this);
         mImageLoader = ImageLoader.getInstance();
         lv_news = (ListView) view.findViewById(R.id.lv_news);
         View header = LayoutInflater.from(mActivity).inflate(
@@ -118,10 +120,9 @@ public class NewsFragment extends BaseFragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
-                if (lv_news != null && lv_news.getChildCount() > 0) {
+//                if (lv_news != null && lv_news.getChildCount() > 0) {
 //                    boolean enable = (firstVisibleItem == 0) && (view.getChildAt(firstVisibleItem).getTop() == 0);
-//                    ((MainActivity) mActivity).setSwipeRefreshEnable(enable);
-                }
+//                }
             }
         });
         return view;
@@ -131,11 +132,16 @@ public class NewsFragment extends BaseFragment {
     @Override
     protected void initData() {
         super.initData();
+        loadData();
+    }
+
+    private void loadData() {
+        isLoading = true;
         if (HttpUtils.checkNetwork(mActivity)) {
             HttpUtils.get(Constant.THEMENEWS + urlId, new TextHttpResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-
+                    isLoading =false;
                 }
 
                 @Override
@@ -156,7 +162,6 @@ public class NewsFragment extends BaseFragment {
             cursor.close();
             db.close();
         }
-
     }
 
     private void parseJson(String responseString) {
@@ -170,9 +175,18 @@ public class NewsFragment extends BaseFragment {
         mImageLoader.displayImage(news.getImage(), iv_title, options);
         mAdapter = new NewsItemAdapter(mActivity, news.getStories());
         lv_news.setAdapter(mAdapter);
+        isLoading =false;
     }
 
     public void updateTheme() {
         mAdapter.updateTheme();
+    }
+
+    @Override
+    public void onRefresh() {
+        if (!isLoading ){
+            loadData();
+        }
+        sr.setRefreshing(false);
     }
 }

@@ -5,6 +5,7 @@ package io.github.cellzer.yuezhihu.yuezhihu;
  */
 public class Constant {
     public static final String BASEURL = "http://news-at.zhihu.com/api/4/";
+    public static final String KANURL = "http://api.kanzhihu.com/getpostanswers/";
     //Splash页面图片
     public static final String START = BASEURL+"start-image/1080*1776";
 
@@ -18,6 +19,9 @@ public class Constant {
     public static final String CACHE = "cache";
     public static final int LATEST_COLUMN = Integer.MAX_VALUE;
     public static final int BASE_COLUMN = 100000000;
+
+
+
 
     public static final int SHOUYE = 0;
     public static final int XINQI = 1;
