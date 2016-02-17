@@ -48,7 +48,7 @@ public class NewsContentActivity extends AppCompatActivity implements RevealBack
         vRevealBackground = (RevealBackgroundView) findViewById(R.id.revealBackgroundView);
         entity = (StoriesEntity) getIntent().getSerializableExtra("entity");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("享受阅读的乐趣");
+        toolbar.setTitle(entity.getTitle());
         toolbar.setBackgroundColor(getResources().getColor(isLight ? R.color.light_toolbar : R.color.dark_toolbar));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

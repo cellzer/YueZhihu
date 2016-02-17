@@ -38,6 +38,7 @@
         android:textSize="14sp"/>
 
     <LinearLayout
+        android:id="@+id/ll_a"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -69,6 +70,18 @@
 
 
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="E+N Photographies"
+        android:paddingBottom="15dp"
+        android:textColor="@android:color/white"
+        />
 
 
 </RelativeLayout>

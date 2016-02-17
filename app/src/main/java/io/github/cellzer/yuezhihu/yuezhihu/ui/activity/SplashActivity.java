@@ -9,10 +9,14 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.BinaryHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,11 +29,15 @@ import butterknife.InjectView;
 import io.github.cellzer.yuezhihu.yuezhihu.Constant;
 import io.github.cellzer.yuezhihu.yuezhihu.R;
 import io.github.cellzer.yuezhihu.yuezhihu.net.HttpUtils;
+import io.github.cellzer.yuezhihu.yuezhihu.util.PreUtils;
 import io.github.cellzer.yuezhihu.yuezhihu.util.SnackbarUtils;
 
 public class SplashActivity extends Activity {
     @InjectView(R.id.iv_start)
      ImageView iv_start;
+    @InjectView(R.id.author)
+    TextView author;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +55,7 @@ public class SplashActivity extends Activity {
     }
 
     private void initImage() {
-
+        SSLSocketFactory.getSocketFactory().setHostnameVerifier(new AllowAllHostnameVerifier());
         File dir = getFilesDir();
        final File imgFile = new File(dir,"start.png");
         if (imgFile.exists()) {
@@ -55,7 +63,7 @@ public class SplashActivity extends Activity {
         } else {
             iv_start.setImageResource(R.mipmap.start);
         }
-
+        author.setText(PreUtils.getStringFromDefault(SplashActivity.this,"author",""));
         final ScaleAnimation scaleAnim = new ScaleAnimation(1.0f, 1.2f, 1.0f, 1.2f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
                 0.5f);
@@ -75,20 +83,25 @@ public class SplashActivity extends Activity {
                         @Override
                         public void onSuccess(int i, org.apache.http.Header[] headers, byte[] bytes) {
                             try {
-                                JSONObject jb = new JSONObject(new String(bytes));
-                                HttpUtils.get(jb.getString("img"), new AsyncHttpResponseHandler() {
+                                JSONObject jsonObject = new JSONObject(new String(bytes));
+                                String url = jsonObject.getString("img");
+                                String text = jsonObject.getString("text");
+                                PreUtils.putStringToDefault(SplashActivity.this,"author",text);
+                                if(url.contains("\\")){
+                                    url.replace("\\","");
+                                }
+                                HttpUtils.get(url, new BinaryHttpResponseHandler() {
                                     @Override
-                                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                                        saveImg(imgFile,responseBody);
+                                    public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                                        saveImg(imgFile, bytes);
                                         intent2main();
                                     }
 
                                     @Override
-                                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                                    public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
                                         intent2main();
                                     }
                                 });
-
 
                             } catch (JSONException e) {
                                 e.printStackTrace();

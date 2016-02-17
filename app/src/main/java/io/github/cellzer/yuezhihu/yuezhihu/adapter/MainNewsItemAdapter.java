@@ -23,8 +23,9 @@ import io.github.cellzer.yuezhihu.yuezhihu.model.StoriesEntity;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.activity.MainActivity;
 import io.github.cellzer.yuezhihu.yuezhihu.util.PreUtils;
 
+
 /**
- * Created by wwjun.wang on 2015/8/13.
+ * 主页新闻item
  */
 public class MainNewsItemAdapter extends BaseAdapter {
     private List<StoriesEntity> entities;

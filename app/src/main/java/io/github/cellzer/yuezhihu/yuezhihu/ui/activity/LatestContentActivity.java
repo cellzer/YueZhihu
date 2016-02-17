@@ -59,6 +59,7 @@ public class LatestContentActivity extends AppCompatActivity implements RevealBa
         entity = (StoriesEntity) getIntent().getSerializableExtra("entity");
         iv = (ImageView) findViewById(R.id.iv);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        toolbar.setTitle(entity.getTitle());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -72,6 +73,12 @@ public class LatestContentActivity extends AppCompatActivity implements RevealBa
         mCollapsingToolbarLayout.setTitle(entity.getTitle());
         mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(isLight ? R.color.light_toolbar : R.color.dark_toolbar));
         mCollapsingToolbarLayout.setStatusBarScrimColor(getResources().getColor(isLight ? R.color.light_toolbar : R.color.dark_toolbar));
+
+//        mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+//        mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+//        mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBarPlus1);
+//        mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBarPlus1);
+
         mWebView = (WebView) findViewById(R.id.webview);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
