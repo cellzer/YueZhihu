@@ -2,6 +2,7 @@ package io.github.cellzer.yuezhihu.yuezhihu.model;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -56,7 +57,7 @@ public class Chosen extends DataSupport {
         return answers;
     }
 
-    public static class AnswersEntity {
+    public static class AnswersEntity implements Serializable{
         private String title;
         private String time;
         private String summary;

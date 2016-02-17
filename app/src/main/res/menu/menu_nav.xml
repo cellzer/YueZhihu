@@ -35,10 +35,6 @@
                     android:id="@+id/about"
                     android:icon="@mipmap/about"
                     android:title="关于"/>
-                <item
-                    android:id="@+id/light"
-                    android:icon="@mipmap/about"
-                    android:title="夜间模式"/>
             </menu>
     </item>
 
