@@ -15,13 +15,19 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.github.cellzer.yuezhihu.yuezhihu.Constant;
 import io.github.cellzer.yuezhihu.yuezhihu.R;
 import io.github.cellzer.yuezhihu.yuezhihu.YueZhihuApplication;
 import io.github.cellzer.yuezhihu.yuezhihu.db.CacheDbHelper;
+import io.github.cellzer.yuezhihu.yuezhihu.ui.fragment.ChosenMainFragment;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.fragment.MainFragment;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.fragment.TopicNewsFragment;
+import io.github.cellzer.yuezhihu.yuezhihu.util.DateUtil;
 
 
 public class MainActivity extends BaseActivity  {
@@ -45,9 +51,14 @@ public class MainActivity extends BaseActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+
         dbHelper = new CacheDbHelper(this, 1);
+
+
         sp = PreferenceManager.getDefaultSharedPreferences(YueZhihuApplication.getContext());
         isLight = sp.getBoolean("isLight", true);
+
+
         config();
         replaceView(new MainFragment(),"latest");
     }
@@ -89,6 +100,11 @@ public class MainActivity extends BaseActivity  {
 
                     case R.id.newsPage:
                         replaceView(new TopicNewsFragment(),"news");
+                        msgString = (String) menuItem.getTitle();
+                        menuItem.setChecked(true);
+                        break;
+                    case R.id.chosen:
+                        replaceView(new ChosenMainFragment(),"chosen");
                         msgString = (String) menuItem.getTitle();
                         menuItem.setChecked(true);
                         break;

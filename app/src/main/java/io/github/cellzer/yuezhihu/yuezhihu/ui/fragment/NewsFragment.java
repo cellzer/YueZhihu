@@ -32,7 +32,6 @@ import io.github.cellzer.yuezhihu.yuezhihu.db.CacheDbHelper;
 import io.github.cellzer.yuezhihu.yuezhihu.model.News;
 import io.github.cellzer.yuezhihu.yuezhihu.model.StoriesEntity;
 import io.github.cellzer.yuezhihu.yuezhihu.net.HttpUtils;
-import io.github.cellzer.yuezhihu.yuezhihu.ui.activity.MainActivity;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.activity.NewsContentActivity;
 import io.github.cellzer.yuezhihu.yuezhihu.util.PreUtils;
 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:id="@+id/id_coordinatorlayout"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@android:color/white" />
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    <!--
+        这是一个浮动按钮。由于FloatingActionButton是重写ImageView的，
+        所有FloatingActionButton拥有ImageView的一切属性。
+
+        属性介绍：
+            app:backgroundTint : FAB的背景色。
+            app:elevation      ：FAB的阴影效果。
+            app:rippleColor    ：设置涟漪的颜色，默认是由背景色生成的暗色调，可以自己指定。
+            app:pressedTranslationZ  ：FAB动画效果，在它被按下的时候阴影就会增大。
+    -->
+    <!--    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/id_floatingactionbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:src="@mipmap/ic_action_plusone"
+            app:backgroundTint="@color/main_blue_light"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            app:rippleColor="@color/main_blue_dark" />-->
+
+</android.support.design.widget.CoordinatorLayout>
