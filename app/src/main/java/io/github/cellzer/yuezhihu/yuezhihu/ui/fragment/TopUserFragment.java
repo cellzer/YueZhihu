@@ -77,7 +77,7 @@ public class TopUserFragment extends BaseFragment implements SwipeRefreshLayout.
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
-                    PreUtils.putStringToDefault(mActivity, Constant.TOPUSER+url, response.toString());
+                    PreUtils.putStringToDefault(TopUserFragment.this.getActivity(), Constant.TOPUSER+url, response.toString());
                     parseJson(response.toString());
                 }
 
@@ -90,7 +90,7 @@ public class TopUserFragment extends BaseFragment implements SwipeRefreshLayout.
             });
 
         }else{
-            String json = PreUtils.getStringFromDefault(mActivity, Constant.TOPUSER+url, "");
+            String json = PreUtils.getStringFromDefault(TopUserFragment.this.getActivity(), Constant.TOPUSER+url, "");
             parseJson(json);
         }
 

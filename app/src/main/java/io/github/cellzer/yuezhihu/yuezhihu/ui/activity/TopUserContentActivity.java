@@ -41,6 +41,7 @@ public class TopUserContentActivity extends AppCompatActivity implements RevealB
         vRevealBackground = (RevealBackgroundView) findViewById(R.id.revealBackgroundView);
         mTopuserEntity = (TopUser.TopuserEntity) getIntent().getSerializableExtra("TopuserEntity");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(mTopuserEntity.getName()+"的主页");
         toolbar.setBackgroundColor(getResources().getColor(R.color.light_toolbar));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -41,6 +41,7 @@ public class ChosenContentActivity extends AppCompatActivity implements RevealBa
         vRevealBackground = (RevealBackgroundView) findViewById(R.id.revealBackgroundView);
         mAnswersEntity = (Chosen.AnswersEntity) getIntent().getSerializableExtra("AnswersEntity");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(mAnswersEntity.getTitle());
         toolbar.setBackgroundColor(getResources().getColor(R.color.light_toolbar));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
