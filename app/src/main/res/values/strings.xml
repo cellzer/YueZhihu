@@ -5,4 +5,13 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_chosen_content">ChosenContentActivity</string>
     <string name="title_activity_top_user_content">TopUserContentActivity</string>
+    <string name="place">这里本人根据看知乎（www.kanzhihu.com）和Github用户izzyleung（https://github.com/izzyleung）提供的API制作的app，以下内容均来源于知乎和知乎日报，所有内容的版权均属于问题和答案的作者，此app仅作学习交流之用。</string>
+    <string name="shengming">以下所有API均由知乎（Zhihu.Inc） 提供，本人（Cellzer）采取非正常手段获取。获取与共享之行为或有侵犯知乎权益的嫌疑。若被告知需停止共享与使用，本人会及时删除整个项目。
+请您暸解相关情况，并遵守知乎协议。</string>
+    <string name="data_source">【首页】数据来源于知乎日报首页，【新奇日报】数据来源于知乎日报的主题日报，【精选】【用户排名】数据来源于网站看知乎（www.kanzhihu.com）\n相关API\nhttps://github.com/izzyleung/ZhihuDailyPurify/wiki/知乎日报-API-分析
+    \nhttp://www.kanzhihu.com/api-document</string>
+    <string name="jingxuan">凌晨5点发布昨日最新，也就是前一天发表的热门答案；
+中午11点发布近日热门，也就是之前7天内发表、但没在任何一篇「昨日最新」中推荐过的答案；
+傍晚17点发布历史精华，也就是随机挑选了整个知乎历史上的精华内容。</string>
+    <string name="yiju">主要依据是赞同数，排位顺序也综合考虑了作者本人的一些情况，以优先推荐新人为主。</string>
 </resources>

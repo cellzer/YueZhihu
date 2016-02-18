@@ -108,6 +108,16 @@ public class MainActivity extends BaseActivity  {
                         msgString = (String) menuItem.getTitle();
                         menuItem.setChecked(true);
                         break;
+                    case R.id.setting:
+                        replaceView(new SettingFragment(),"setting");
+                        msgString = (String) menuItem.getTitle();
+                        menuItem.setChecked(true);
+                        break;
+                    case R.id.about:
+                        replaceView(new AboutFragment(),"about");
+                        msgString = (String) menuItem.getTitle();
+                        menuItem.setChecked(true);
+                        break;
 
                 }
 
