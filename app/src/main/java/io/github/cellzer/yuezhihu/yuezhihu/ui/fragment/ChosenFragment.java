@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,14 +26,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.github.cellzer.yuezhihu.yuezhihu.Constant;
 import io.github.cellzer.yuezhihu.yuezhihu.R;
-import io.github.cellzer.yuezhihu.yuezhihu.YueZhihuApplication;
 import io.github.cellzer.yuezhihu.yuezhihu.adapter.ChosenItemAdapter;
 import io.github.cellzer.yuezhihu.yuezhihu.model.Chosen;
 import io.github.cellzer.yuezhihu.yuezhihu.net.HttpUtils;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.activity.ChosenContentActivity;
-import io.github.cellzer.yuezhihu.yuezhihu.ui.activity.NewsContentActivity;
 import io.github.cellzer.yuezhihu.yuezhihu.util.DateUtil;
 import io.github.cellzer.yuezhihu.yuezhihu.util.PreUtils;
+import io.github.cellzer.yuezhihu.yuezhihu.util.SnackbarUtils;
 
 /**
  * Created by walmand_ on 2016/2/16 0016.
@@ -56,7 +54,7 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
         this.context = context;
     }
 
-    private MaterialDialog dialog;
+//    private MaterialDialog dialog;
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,12 +66,13 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
         lv_chosen.addHeaderView(header);
         lv_chosen.setOnItemClickListener(this);
 
-          dialog = new MaterialDialog.Builder(mActivity)
-                .title("加载中")
-                  .titleColor(getResources().getColor(R.color.main_black_grey))
-                .progress(true, 0)
-                .backgroundColor(getResources().getColor(R.color.light_news_item))
-                .build();
+//          dialog = new MaterialDialog.Builder(mActivity)
+//                .title("加载中...")
+//                  .content("不要着急哦~")
+//                  .titleColor(getResources().getColor(R.color.main_black_grey))
+//                .progress(true, 0)
+//                .backgroundColor(getResources().getColor(R.color.light_news_item))
+//                .build();
         return view;
     }
     private String today;
@@ -89,16 +88,17 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
     }
 
     private void loadData() {
-        dialog.show();
+//        dialog.show();
+        sr.setRefreshing(true);
         isLoading = true;
         if (HttpUtils.checkNetwork(mActivity)) {
-            HttpUtils.get(Constant.KANURL+ DateUtil.getYestoday(DateUtil.getFormatDateTime(new Date(),"yyyyMMdd"),"yyyyMMdd") + "/"+title, new JsonHttpResponseHandler() {
+            HttpUtils.get(Constant.GETPOSTANSWERS + DateUtil.getYestoday(DateUtil.getFormatDateTime(new Date(),"yyyyMMdd"),"yyyyMMdd") + "/"+title, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
                     String json = response.toString();
 //                    System.out.print("ql--"+json);
-                    PreUtils.putStringToDefault(mActivity, Constant.KANURL, json);
+                    PreUtils.putStringToDefault(mActivity, Constant.GETPOSTANSWERS+ "/"+title, json);
                     parseJson(response.toString());
                 }
 
@@ -106,10 +106,11 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     super.onFailure(statusCode, headers, responseString, throwable);
                     isLoading =false;
+                    sr.setRefreshing(false);
                 }
             });
         } else {
-            String json = PreUtils.getStringFromDefault(mActivity, Constant.KANURL, "");
+            String json = PreUtils.getStringFromDefault(mActivity, Constant.GETPOSTANSWERS+ "/"+title, "");
             parseJson(json);
         }
 
@@ -119,15 +120,16 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
 
         Gson gson = new Gson();
         chosenBean = gson.fromJson(response, Chosen.class);
-        if (chosenBean.getError().contains("no result")){
-            Toast.makeText(mActivity,"暂无数据",Toast.LENGTH_SHORT).show();
+        if (chosenBean==null||chosenBean.getError().contains("no result")){
+            SnackbarUtils.show(mActivity, "数据获取失败，请重试");
         }else{
             mAdapter = new ChosenItemAdapter(mActivity,chosenBean.getAnswers());
             lv_chosen.setAdapter(mAdapter);
         }
 
         isLoading =false;
-        dialog.cancel();
+        sr.setRefreshing(false);
+//        dialog.cancel();
     }
 
     @Override

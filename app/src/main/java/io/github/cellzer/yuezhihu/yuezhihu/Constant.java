@@ -5,7 +5,12 @@ package io.github.cellzer.yuezhihu.yuezhihu;
  */
 public class Constant {
     public static final String BASEURL = "http://news-at.zhihu.com/api/4/";
-    public static final String KANURL = "http://api.kanzhihu.com/getpostanswers/";
+    public static final String KANZHIHUBASEURL = "http://api.kanzhihu.com/";
+
+    public static final String GETPOSTANSWERS = KANZHIHUBASEURL+"getpostanswers/";
+    public static final String TOPUSER = KANZHIHUBASEURL+"topuser/";
+
+
     //Splash页面图片
     public static final String START = BASEURL+"start-image/1080*1776";
 
@@ -21,11 +26,17 @@ public class Constant {
     public static final int BASE_COLUMN = 100000000;
     public static final String[] CHOSEN_TITLE = {"昨日最新","近日热门","历史精华"};
     public static final String[] CHOSEN_URL = {"yesterday","recent","archive"};
+    public static final String[] USER_TITLE = {"赞同数","关注数"};
+    public static final String[] USER_URL = {"agree","follower"};
 
     public static final int SHOUYE = 0;
     public static final int XINQI = 1;
     public static final int JINGXUAN = 2;
     public static final int PAIMING = 3;
     public static final int SHOUCHANG = 4;
+
+
+    public static final int TYPE_AGREE = 11;
+    public static final int TYPE_FOLLOWER = 12;
 
 }

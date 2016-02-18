@@ -7,27 +7,22 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import io.github.cellzer.yuezhihu.yuezhihu.Constant;
 import io.github.cellzer.yuezhihu.yuezhihu.R;
 import io.github.cellzer.yuezhihu.yuezhihu.YueZhihuApplication;
 import io.github.cellzer.yuezhihu.yuezhihu.db.CacheDbHelper;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.fragment.ChosenMainFragment;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.fragment.MainFragment;
+import io.github.cellzer.yuezhihu.yuezhihu.ui.fragment.TopUserMainFragment;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.fragment.TopicNewsFragment;
-import io.github.cellzer.yuezhihu.yuezhihu.util.DateUtil;
 
 
 public class MainActivity extends BaseActivity  {
@@ -105,6 +100,11 @@ public class MainActivity extends BaseActivity  {
                         break;
                     case R.id.chosen:
                         replaceView(new ChosenMainFragment(),"chosen");
+                        msgString = (String) menuItem.getTitle();
+                        menuItem.setChecked(true);
+                        break;
+                    case R.id.ranking:
+                        replaceView(new TopUserMainFragment(),"topuser");
                         msgString = (String) menuItem.getTitle();
                         menuItem.setChecked(true);
                         break;
