@@ -22,24 +22,24 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import io.github.cellzer.yuezhihu.yuezhihu.Constant;
 import io.github.cellzer.yuezhihu.yuezhihu.R;
 import io.github.cellzer.yuezhihu.yuezhihu.model.Chosen;
-import io.github.cellzer.yuezhihu.yuezhihu.model.Content;
-import io.github.cellzer.yuezhihu.yuezhihu.model.StoriesEntity;
+import io.github.cellzer.yuezhihu.yuezhihu.model.TopUser;
 import io.github.cellzer.yuezhihu.yuezhihu.ui.widget.RevealBackgroundView;
 
-public class ChosenContentActivity extends AppCompatActivity implements RevealBackgroundView.OnStateChangeListener {
+public class TopUserContentActivity extends AppCompatActivity implements RevealBackgroundView.OnStateChangeListener {
     private WebView mWebView;
     private RevealBackgroundView vRevealBackground;
     private CoordinatorLayout coordinatorLayout;
-    private Chosen.AnswersEntity mAnswersEntity;
+    private TopUser.TopuserEntity mTopuserEntity;
     private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chosen_content);
+        setContentView(R.layout.activity_top_user_content);
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         coordinatorLayout.setVisibility(View.INVISIBLE);
         vRevealBackground = (RevealBackgroundView) findViewById(R.id.revealBackgroundView);
-        mAnswersEntity = (Chosen.AnswersEntity) getIntent().getSerializableExtra("AnswersEntity");
+        mTopuserEntity = (TopUser.TopuserEntity) getIntent().getSerializableExtra("TopuserEntity");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.light_toolbar));
         setSupportActionBar(toolbar);
@@ -51,7 +51,7 @@ public class ChosenContentActivity extends AppCompatActivity implements RevealBa
             }
         });
 
-        final MaterialDialog  dialog = new MaterialDialog.Builder(ChosenContentActivity.this)
+        final MaterialDialog dialog = new MaterialDialog.Builder(TopUserContentActivity.this)
                 .title("加载中")
                 .content("客官别急...")
                 .contentColor(getResources().getColor(R.color.main_black_grey))
@@ -111,7 +111,7 @@ public class ChosenContentActivity extends AppCompatActivity implements RevealBa
 
             }
         });
-        mWebView.loadUrl("http://www.zhihu.com/question/" + mAnswersEntity.getQuestionid() + "/answer/" + mAnswersEntity.getAnswerid());
+        mWebView.loadUrl("http://www.zhihu.com/people/" + mTopuserEntity.getHash());
         setupRevealBackground(savedInstanceState);
     }
     private void setupRevealBackground(Bundle savedInstanceState) {
@@ -146,4 +146,5 @@ public class ChosenContentActivity extends AppCompatActivity implements RevealBa
         }
         return super.onKeyDown(keyCode, event);
     }
+
 }

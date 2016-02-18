@@ -34,6 +34,10 @@
             android:name=".ui.activity.ChosenContentActivity"
             android:label="@string/title_activity_chosen_content" >
         </activity>
+        <activity
+            android:name=".ui.activity.TopUserContentActivity"
+            android:label="@string/title_activity_top_user_content" >
+        </activity>
     </application>
 
 </manifest>

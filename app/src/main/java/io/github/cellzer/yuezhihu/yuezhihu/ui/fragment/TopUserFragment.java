@@ -2,6 +2,7 @@ package io.github.cellzer.yuezhihu.yuezhihu.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -22,13 +24,17 @@ import butterknife.InjectView;
 import io.github.cellzer.yuezhihu.yuezhihu.Constant;
 import io.github.cellzer.yuezhihu.yuezhihu.R;
 import io.github.cellzer.yuezhihu.yuezhihu.adapter.TopUserItemAdapter;
+import io.github.cellzer.yuezhihu.yuezhihu.model.Chosen;
 import io.github.cellzer.yuezhihu.yuezhihu.model.TopUser;
 import io.github.cellzer.yuezhihu.yuezhihu.net.HttpUtils;
+import io.github.cellzer.yuezhihu.yuezhihu.ui.activity.ChosenContentActivity;
+import io.github.cellzer.yuezhihu.yuezhihu.ui.activity.TopUserContentActivity;
 import io.github.cellzer.yuezhihu.yuezhihu.util.PreUtils;
 import io.github.cellzer.yuezhihu.yuezhihu.util.SnackbarUtils;
 
 /**
  * Created by walmand_ on 2016/2/18 0018.
+ * 用户排名二级页面
  */
 @SuppressLint("ValidFragment")
 public class TopUserFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
@@ -129,8 +135,18 @@ public class TopUserFragment extends BaseFragment implements SwipeRefreshLayout.
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemClick(AdapterView<?> parent, View view,
+                            int position, long id) {
 
+        int[] startingLocation = new int[2];
+        view.getLocationOnScreen(startingLocation);
+        startingLocation[0] += view.getWidth() / 2;
+        TopUser.TopuserEntity mTopuserEntity  = (TopUser.TopuserEntity) parent.getAdapter().getItem(position);
+        Intent intent = new Intent(mActivity, TopUserContentActivity.class);
+        intent.putExtra(Constant.START_LOCATION, startingLocation);
+        intent.putExtra("TopuserEntity", mTopuserEntity);
+        startActivity(intent);
+        mActivity.overridePendingTransition(0, 0);
     }
 
     @Override

@@ -2,6 +2,7 @@ package io.github.cellzer.yuezhihu.yuezhihu.model;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -62,7 +63,7 @@ public class TopUser extends DataSupport {
         this.rankType = rankType;
     }
 
-    public static class TopuserEntity {
+    public static class TopuserEntity implements Serializable{
         private String id;
         private int agree;
         private int follower;
