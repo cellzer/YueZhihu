@@ -1,6 +1,6 @@
 #悦知乎
 
-######一款基于Google Material Design设计开发的知乎集合阅读客户端，根据网站看知乎（www.kanzhihu.com）和Github用户izzyleung（https://github.com/izzyleung）提供的API制作，app所有内容均来源于知乎和知乎日报，所有内容的版权均属于问题和答案的作者，此app仅作学习交流之用。
+######一款基于Google Material Design设计开发的知乎集合阅读客户端，根据网站看知乎和Github用户izzyleung提供的API制作，app所有内容均来源于知乎和知乎日报，所有内容的版权均属于问题和答案的作者，此app仅作学习交流之用
 
 ##声明
 以下所有API均由知乎（Zhihu.Inc） 提供，本人（Cellzer）采取非正常手段获取。获取与共享之行为或有侵犯知乎权益的嫌疑。若被告知需停止共享与使用，本人会及时删除整个项目。
@@ -34,6 +34,15 @@
 [http://www.kanzhihu.com/api-document](http://www.kanzhihu.com/api-document)
 
 感谢[izzyleung](https://github.com/izzyleung "izzyleung")，感谢知乎苏莉安[http://www.kanzhihu.com](http://www.kanzhihu.com "苏莉安")
+
+##dependencies
+- butterknife
+- universalimageloader
+- gson
+- android-async-http
+- material-dialogs
+##项目主页
+[https://github.com/cellzer/YueZhihu](https://github.com/cellzer/YueZhihu "https://github.com/cellzer/YueZhihu")
 
 
 ##关于我
