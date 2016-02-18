@@ -3,6 +3,7 @@ package io.github.cellzer.yuezhihu.yuezhihu.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -47,8 +48,9 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
     private ChosenItemAdapter mAdapter;
     private String title;
     private Context context;
-    private boolean isLoading=false;
+    private boolean isLoading = false;
     private View header;
+
     public ChosenFragment(String title, Context context) {
         this.title = title;
         this.context = context;
@@ -60,8 +62,8 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_chosen, null);
 
-        lv_chosen= (ListView) view.findViewById(R.id.lv_chosen);
-        header = LayoutInflater.from(context).inflate(R.layout.chosen_list_header,null);
+        lv_chosen = (ListView) view.findViewById(R.id.lv_chosen);
+        header = LayoutInflater.from(context).inflate(R.layout.chosen_list_header, null);
         date = (TextView) header.findViewById(R.id.date);
         lv_chosen.addHeaderView(header);
         lv_chosen.setOnItemClickListener(this);
@@ -75,15 +77,17 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
 //                .build();
         return view;
     }
+
     private String today;
+
     @Override
     protected void initData() {
 
         sr.setOnRefreshListener(ChosenFragment.this);
-        today =  DateUtil.getFormatDateTime(new Date(),"yyyy-MM-dd");
+        today = DateUtil.getFormatDateTime(new Date(), "yyyy-MM-dd");
 
         String[] split = today.split("-");
-        date.setText(split[0]+"年"+split[1]+"月"+split[2]+"日");
+        date.setText(split[0] + "年" + split[1] + "月" + split[2] + "日");
         loadData();
     }
 
@@ -92,42 +96,44 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
         sr.setRefreshing(true);
         isLoading = true;
         if (HttpUtils.checkNetwork(mActivity)) {
-            HttpUtils.get(Constant.GETPOSTANSWERS + DateUtil.getYestoday(DateUtil.getFormatDateTime(new Date(),"yyyyMMdd"),"yyyyMMdd") + "/"+title, new JsonHttpResponseHandler() {
+            HttpUtils.get(Constant.GETPOSTANSWERS + DateUtil.getYestoday(DateUtil.getFormatDateTime(new Date(), "yyyyMMdd"), "yyyyMMdd") + "/" + title, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
                     String json = response.toString();
 //                    System.out.print("ql--"+json);
-                    PreUtils.putStringToDefault(mActivity, Constant.GETPOSTANSWERS+ "/"+title, json);
+                    PreUtils.putStringToDefault(mActivity, Constant.GETPOSTANSWERS + "/" + title, json);
                     parseJson(response.toString());
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     super.onFailure(statusCode, headers, responseString, throwable);
-                    isLoading =false;
+                    isLoading = false;
                     sr.setRefreshing(false);
                 }
             });
         } else {
-            String json = PreUtils.getStringFromDefault(mActivity, Constant.GETPOSTANSWERS+ "/"+title, "");
+            String json = PreUtils.getStringFromDefault(mActivity, Constant.GETPOSTANSWERS + "/" + title, "");
             parseJson(json);
         }
 
     }
+
     private Chosen chosenBean;
+
     private void parseJson(String response) {
 
         Gson gson = new Gson();
         chosenBean = gson.fromJson(response, Chosen.class);
-        if (chosenBean==null||chosenBean.getError().contains("no result")){
+        if (chosenBean == null || chosenBean.getError().contains("no result")) {
             SnackbarUtils.show(mActivity, "数据获取失败，请重试");
-        }else{
-            mAdapter = new ChosenItemAdapter(mActivity,chosenBean.getAnswers());
+        } else {
+            mAdapter = new ChosenItemAdapter(mActivity, chosenBean.getAnswers());
             lv_chosen.setAdapter(mAdapter);
         }
 
-        isLoading =false;
+        isLoading = false;
         sr.setRefreshing(false);
 //        dialog.cancel();
     }
@@ -148,7 +154,7 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     public void onRefresh() {
-        if (!isLoading ){
+        if (!isLoading) {
             loadData();
         }
         sr.setRefreshing(false);
@@ -157,17 +163,8 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view,
                             int position, long id) {
-
-        int[] startingLocation = new int[2];
-        view.getLocationOnScreen(startingLocation);
-        startingLocation[0] += view.getWidth() / 2;
-
-        Chosen.AnswersEntity mAnswersEntity  = (Chosen.AnswersEntity) parent.getAdapter().getItem(position);
-        Intent intent = new Intent(mActivity, ChosenContentActivity.class);
-        intent.putExtra(Constant.START_LOCATION, startingLocation);
-        intent.putExtra("AnswersEntity", mAnswersEntity);
-
-
+        //已读标灰
+        Chosen.AnswersEntity mAnswersEntity = (Chosen.AnswersEntity) parent.getAdapter().getItem(position);
         String readSequence = PreUtils.getStringFromDefault(mActivity, "chosen_read", "");
         String[] splits = readSequence.split(",");
         StringBuffer sb = new StringBuffer();
@@ -185,8 +182,16 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
         TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
         tv_title.setTextColor(getResources().getColor(R.color.clicked_tv_textcolor));
 
+        int[] startingLocation = new int[2];
+        view.getLocationOnScreen(startingLocation);
+        startingLocation[0] += view.getWidth() / 2;
+
+        Intent intent = new Intent(mActivity, ChosenContentActivity.class);
+        intent.putExtra(Constant.START_LOCATION, startingLocation);
+        intent.putExtra("AnswersEntity", mAnswersEntity);
         startActivity(intent);
         mActivity.overridePendingTransition(0, 0);
+
 
     }
 }

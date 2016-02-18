@@ -17,6 +17,15 @@ public class PreUtils {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getString(key, defValue);
     }
+    public static void putBooleanToDefault(Context context, String key, boolean value) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp.edit().putBoolean(key, value).commit();
+    }
+
+    public static boolean getBooleanFromDefault(Context context, String key, boolean defValue) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getBoolean(key,defValue);
+    }
 
   /*  public static void putStringTo(String name, Context context, String key, String value) {
         SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
