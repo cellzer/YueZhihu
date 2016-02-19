@@ -43,8 +43,6 @@ public class TopicNewsFragment extends BaseFragment implements ViewPager.OnPageC
     AppBarLayout mAppbarlayout;
     @InjectView(R.id.id_viewpager)
     ViewPager mViewPager;
-    @InjectView(R.id.id_coordinatorlayout)
-    CoordinatorLayout mCoordinatorlayout;
 
 
     private TopicNewsPagerAdapter mTopicNewsPagerAdapter;

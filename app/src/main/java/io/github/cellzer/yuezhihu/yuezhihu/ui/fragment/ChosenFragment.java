@@ -102,7 +102,7 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
                     super.onSuccess(statusCode, headers, response);
                     String json = response.toString();
 //                    System.out.print("ql--"+json);
-                    PreUtils.putStringToDefault(mActivity, Constant.GETPOSTANSWERS + "/" + title, json);
+                    PreUtils.putStringToDefault(getContext(), Constant.GETPOSTANSWERS + "/" + title, json);
                     parseJson(response.toString());
                 }
 
@@ -114,7 +114,7 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
                 }
             });
         } else {
-            String json = PreUtils.getStringFromDefault(mActivity, Constant.GETPOSTANSWERS + "/" + title, "");
+            String json = PreUtils.getStringFromDefault(getContext(), Constant.GETPOSTANSWERS + "/" + title, "");
             parseJson(json);
         }
 

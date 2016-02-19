@@ -29,11 +29,7 @@ public class Constant {
     public static final String[] USER_TITLE = {"赞同数","关注数"};
     public static final String[] USER_URL = {"agree","follower"};
 
-    public static final int SHOUYE = 0;
-    public static final int XINQI = 1;
-    public static final int JINGXUAN = 2;
-    public static final int PAIMING = 3;
-    public static final int SHOUCHANG = 4;
+
 
 
     public static final int TYPE_AGREE = 11;

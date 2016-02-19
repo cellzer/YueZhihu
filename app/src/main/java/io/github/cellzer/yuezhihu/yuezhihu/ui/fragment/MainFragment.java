@@ -36,6 +36,7 @@ import io.github.cellzer.yuezhihu.yuezhihu.util.PreUtils;
 
 /**
  * Created by walmand_ on 2016/1/31 0031.
+ * 主页
  */
 public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private ListView lv_news;
