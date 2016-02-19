@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.reflect.Field;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.github.cellzer.yuezhihu.yuezhihu.Constant;
@@ -82,5 +84,22 @@ public class TopUserMainFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+    /**
+     * 这段可以解决fragment嵌套fragment会崩溃的问题
+     */
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        try {
+            //参数是固定写法
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
