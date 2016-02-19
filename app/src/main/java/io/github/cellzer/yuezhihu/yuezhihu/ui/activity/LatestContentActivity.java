@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.Header;
+
 
 import io.github.cellzer.yuezhihu.yuezhihu.Constant;
 import io.github.cellzer.yuezhihu.yuezhihu.R;
@@ -46,7 +48,7 @@ public class LatestContentActivity extends AppCompatActivity implements RevealBa
     private AppBarLayout mAppBarLayout;
     private WebCacheDbHelper dbHelper;
     private boolean isLight;
-
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,12 +56,11 @@ public class LatestContentActivity extends AppCompatActivity implements RevealBa
         dbHelper = new WebCacheDbHelper(this, 1);
         isLight = getIntent().getBooleanExtra("isLight", true);
         mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
-        mAppBarLayout.setVisibility(View.INVISIBLE);
+//        mAppBarLayout.setVisibility(View.INVISIBLE);
         vRevealBackground = (RevealBackgroundView) findViewById(R.id.revealBackgroundView);
         entity = (StoriesEntity) getIntent().getSerializableExtra("entity");
         iv = (ImageView) findViewById(R.id.iv);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        toolbar.setTitle(entity.getTitle());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -69,15 +70,11 @@ public class LatestContentActivity extends AppCompatActivity implements RevealBa
 
             }
         });
-        CollapsingToolbarLayout mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
-        mCollapsingToolbarLayout.setTitle(entity.getTitle());
+         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
+
         mCollapsingToolbarLayout.setContentScrimColor(getResources().getColor(isLight ? R.color.light_toolbar : R.color.dark_toolbar));
         mCollapsingToolbarLayout.setStatusBarScrimColor(getResources().getColor(isLight ? R.color.light_toolbar : R.color.dark_toolbar));
 
-//        mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
-//        mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
-//        mCollapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBarPlus1);
-//        mCollapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBarPlus1);
 
         mWebView = (WebView) findViewById(R.id.webview);
         mWebView.getSettings().setJavaScriptEnabled(true);
@@ -151,12 +148,15 @@ public class LatestContentActivity extends AppCompatActivity implements RevealBa
         }
     }
 
+    private Handler mHandler = new Handler();
     @Override
     public void onStateChange(int state) {
         if (RevealBackgroundView.STATE_FINISHED == state) {
             mAppBarLayout.setVisibility(View.VISIBLE);
             setStatusBarColor(Color.TRANSPARENT);
+            mCollapsingToolbarLayout.setTitle(entity.getTitle());
         }
+
     }
 
 

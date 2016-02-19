@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.github.cellzer.yuezhihu.yuezhihu.Constant;
 import io.github.cellzer.yuezhihu.yuezhihu.R;
+import io.github.cellzer.yuezhihu.yuezhihu.YueZhihuApplication;
 import io.github.cellzer.yuezhihu.yuezhihu.adapter.TopUserItemAdapter;
 import io.github.cellzer.yuezhihu.yuezhihu.model.Chosen;
 import io.github.cellzer.yuezhihu.yuezhihu.model.TopUser;
@@ -77,7 +78,7 @@ public class TopUserFragment extends BaseFragment implements SwipeRefreshLayout.
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     super.onSuccess(statusCode, headers, response);
-                    PreUtils.putStringToDefault(TopUserFragment.this.getActivity(), Constant.TOPUSER+url, response.toString());
+                    PreUtils.putStringToDefault(YueZhihuApplication.getContext(), Constant.TOPUSER+url, response.toString());
                     parseJson(response.toString());
                 }
 
@@ -85,12 +86,11 @@ public class TopUserFragment extends BaseFragment implements SwipeRefreshLayout.
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     super.onFailure(statusCode, headers, responseString, throwable);
                     isLoading =false;
-                    sr.setRefreshing(false);
                 }
             });
 
         }else{
-            String json = PreUtils.getStringFromDefault(TopUserFragment.this.getActivity(), Constant.TOPUSER+url, "");
+            String json = PreUtils.getStringFromDefault(YueZhihuApplication.getContext(), Constant.TOPUSER+url, "");
             parseJson(json);
         }
 
@@ -109,7 +109,6 @@ public class TopUserFragment extends BaseFragment implements SwipeRefreshLayout.
         }
 
         isLoading =false;
-        sr.setRefreshing(false);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import io.github.cellzer.yuezhihu.yuezhihu.Constant;
 import io.github.cellzer.yuezhihu.yuezhihu.R;
+import io.github.cellzer.yuezhihu.yuezhihu.YueZhihuApplication;
 import io.github.cellzer.yuezhihu.yuezhihu.adapter.ChosenItemAdapter;
 import io.github.cellzer.yuezhihu.yuezhihu.model.Chosen;
 import io.github.cellzer.yuezhihu.yuezhihu.net.HttpUtils;
@@ -82,8 +83,7 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Override
     protected void initData() {
-
-        sr.setOnRefreshListener(ChosenFragment.this);
+        sr.setOnRefreshListener(this);
         today = DateUtil.getFormatDateTime(new Date(), "yyyy-MM-dd");
 
         String[] split = today.split("-");
@@ -93,7 +93,6 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     private void loadData() {
 //        dialog.show();
-        sr.setRefreshing(true);
         isLoading = true;
         if (HttpUtils.checkNetwork(mActivity)) {
             HttpUtils.get(Constant.GETPOSTANSWERS + DateUtil.getYestoday(DateUtil.getFormatDateTime(new Date(), "yyyyMMdd"), "yyyyMMdd") + "/" + title, new JsonHttpResponseHandler() {
@@ -102,7 +101,7 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
                     super.onSuccess(statusCode, headers, response);
                     String json = response.toString();
 //                    System.out.print("ql--"+json);
-                    PreUtils.putStringToDefault(getContext(), Constant.GETPOSTANSWERS + "/" + title, json);
+                    PreUtils.putStringToDefault(YueZhihuApplication.getContext(), Constant.GETPOSTANSWERS + "/" + title, json);
                     parseJson(response.toString());
                 }
 
@@ -110,11 +109,10 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     super.onFailure(statusCode, headers, responseString, throwable);
                     isLoading = false;
-                    sr.setRefreshing(false);
                 }
             });
         } else {
-            String json = PreUtils.getStringFromDefault(getContext(), Constant.GETPOSTANSWERS + "/" + title, "");
+            String json = PreUtils.getStringFromDefault(YueZhihuApplication.getContext(), Constant.GETPOSTANSWERS + "/" + title, "");
             parseJson(json);
         }
 
@@ -134,7 +132,6 @@ public class ChosenFragment extends BaseFragment implements SwipeRefreshLayout.O
         }
 
         isLoading = false;
-        sr.setRefreshing(false);
 //        dialog.cancel();
     }
 
