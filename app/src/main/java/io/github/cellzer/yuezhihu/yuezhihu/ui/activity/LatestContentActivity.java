@@ -148,7 +148,6 @@ public class LatestContentActivity extends AppCompatActivity implements RevealBa
         }
     }
 
-    private Handler mHandler = new Handler();
     @Override
     public void onStateChange(int state) {
         if (RevealBackgroundView.STATE_FINISHED == state) {
